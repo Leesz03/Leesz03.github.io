@@ -29,7 +29,22 @@ nav .wrap{display:flex;justify-content:space-between;align-items:center;height:5
 nav b{font-weight:700;letter-spacing:-.01em}
 nav ul{display:flex;gap:20px;list-style:none;margin:0;padding:0;font-size:14px}
 nav a{text-decoration:none;color:var(--muted)} nav a:hover{color:var(--fg)}
-header{padding:88px 0 56px}
+header.wrap{padding:88px 20px 150px;position:relative}
+.hero{position:relative;overflow:hidden;isolation:isolate}
+#wave{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.hero header{z-index:0}
+.lead,.chips{position:relative}
+.ts{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--muted);margin-right:8px;letter-spacing:0}
+.eq{display:inline-flex;gap:2px;align-items:flex-end;height:14px;margin-right:8px;vertical-align:-1px}
+.eq i{width:3px;background:var(--accent);border-radius:1px;height:40%}
+@media (prefers-reduced-motion:no-preference){
+  .eq i{animation:eq 1s ease-in-out infinite alternate}
+  .eq i:nth-child(2){animation-delay:-.4s}.eq i:nth-child(3){animation-delay:-.7s}.eq i:nth-child(4){animation-delay:-.2s}
+  @keyframes eq{from{height:25%}to{height:100%}}
+}
+.divider{height:24px;background:var(--line);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 24'%3E%3Cpath d='M0 12 C 10 12 15 4 25 4 S 40 20 50 20 S 65 8 75 8 S 90 16 100 16 S 115 12 120 12' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x center/120px 24px;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 24'%3E%3Cpath d='M0 12 C 10 12 15 4 25 4 S 40 20 50 20 S 65 8 75 8 S 90 16 100 16 S 115 12 120 12' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x center/120px 24px}
 .eyebrow{font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 h1{font-size:clamp(34px,6vw,52px);line-height:1.2;margin:12px 0 20px;letter-spacing:-.03em}
 .lead{font-size:18px;color:var(--muted);max-width:620px;margin:0}
@@ -40,7 +55,7 @@ h1{font-size:clamp(34px,6vw,52px);line-height:1.2;margin:12px 0 20px;letter-spac
   font-size:15px;font-weight:600;text-decoration:none;border:1px solid var(--line);background:var(--card)}
 .btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 .btn:hover{transform:translateY(-1px)} .btn{transition:transform .15s}
-section{padding:56px 0;border-top:1px solid var(--line)}
+section{padding:48px 0 56px}
 h2{font-size:26px;letter-spacing:-.02em;margin:0 0 8px}
 h3{font-size:17px;margin:32px 0 8px}
 .sub{color:var(--muted);margin:0 0 28px}
@@ -70,8 +85,8 @@ ol.flow li::before{content:counter(s);position:absolute;left:0;top:2px;width:24p
 .try button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 #micMsg{font-size:13px;color:var(--muted)}
 .pitch.live #ref,.pitch.live #me,.pitch.live #syllables,.pitch.live #legend{display:none}
-footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
-@media (max-width:560px){ nav ul{gap:12px;font-size:13px} header{padding:56px 0 40px} }
+footer{padding:32px 0 64px;color:var(--muted);font-size:14px}
+@media (max-width:560px){ nav ul{gap:12px;font-size:13px} header.wrap{padding:56px 20px 130px} }
 @media (prefers-reduced-motion:no-preference){
   #me{stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 2.4s .3s ease-out forwards}
   @keyframes draw{to{stroke-dashoffset:0}}
@@ -79,12 +94,13 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
 </style>
 </head>
 <body>
-<nav><div class="wrap"><b>Leesz03</b>
+<nav><div class="wrap"><b><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Leesz03</b>
   <ul><li><a href="#project">Project</a></li><li><a href="#stack">Stack</a></li><li><a href="#contact">Contact</a></li></ul>
 </div></nav>
 
+<div class="hero"><canvas id="wave" aria-hidden="true"></canvas>
 <header class="wrap">
-  <div class="eyebrow">Portfolio · 부산대학교</div>
+  <div class="eyebrow"><span class="ts">00:00</span>Portfolio · 부산대학교</div>
   <h1>목소리를 그래프로 바꾸는<br>앱을 만듭니다.</h1>
   <p class="lead">닉네임 <b>Leesz03</b>. 프론트엔드 개발자입니다. 하나의 웹 UI를 Android·iOS 앱과 브라우저에 똑같이 띄우는 하이브리드 구조와, 마이크 입력을 실시간 그래프로 그리는 인터랙션을 만들고 있습니다.</p>
   <div class="chips">
@@ -99,9 +115,11 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
     <a class="btn" href="#project">대표 프로젝트 보기</a>
   </div>
 </header>
+</div>
+<div class="divider" aria-hidden="true"></div>
 
 <section id="project"><div class="wrap">
-  <div class="eyebrow">Featured Project</div>
+  <div class="eyebrow"><span class="ts">00:12</span>Featured Project</div>
   <h2>Accentury — 경상도 사투리 억양 레벨 테스트</h2>
   <p class="sub">AI·SW 마에스트로 제17기 · 3인 팀 · 2026.07 ~ 진행 중</p>
 
@@ -173,7 +191,9 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
   </div>
 </div></section>
 
+<div class="divider" aria-hidden="true"></div>
 <section id="stack"><div class="wrap">
+  <div class="eyebrow"><span class="ts">00:48</span>Stack</div>
   <h2>다룰 수 있는 것</h2>
   <p class="sub">프로젝트에서 직접 써 본 것만 적었습니다.</p>
   <div class="grid">
@@ -184,6 +204,7 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
   </div>
 </div></section>
 
+<div class="divider" aria-hidden="true"></div>
 <footer id="contact"><div class="wrap">
   <p>GitHub — <a href="https://github.com/Leesz03" target="_blank" rel="noopener">github.com/Leesz03</a></p>
   <p>© 2026 Leesz03 · 2026 공학작문과 발표 과제 #6</p>
@@ -249,6 +270,48 @@ btn.addEventListener('click', async () => {
   }
   raf = requestAnimationFrame(draw)
 })
+</script>
+<script>
+// 히어로 배경 파형. 마우스 세로 위치 = 진폭(목소리 크기), 가로 위치 = 주파수(음높이).
+;(() => {
+  const cv = document.getElementById('wave'), ctx = cv.getContext('2d')
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches
+  let w = 0, h = 0, amp = 0.35, freq = 1, ta = 0.35, tf = 1, t = 0
+  const resize = () => {
+    const r = devicePixelRatio || 1
+    w = cv.clientWidth; h = cv.clientHeight
+    cv.width = w * r; cv.height = h * r; ctx.setTransform(r, 0, 0, r, 0, 0)
+  }
+  addEventListener('resize', resize); resize()
+  cv.parentElement.addEventListener('pointermove', (e) => {
+    const b = cv.getBoundingClientRect()
+    ta = 0.15 + 0.85 * (1 - (e.clientY - b.top) / b.height)
+    tf = 0.6 + 1.6 * ((e.clientX - b.left) / b.width)
+  })
+  cv.parentElement.addEventListener('pointerleave', () => { ta = 0.35; tf = 1 })
+  const color = () => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()
+  const frame = () => {
+    amp += (ta - amp) * 0.06; freq += (tf - freq) * 0.06; t += 0.012
+    ctx.clearRect(0, 0, w, h)
+    const c = color(), mid = h - 70
+    for (let k = 0; k < 4; k++) {
+      ctx.beginPath()
+      for (let x = 0; x <= w; x += 4) {
+        const u = x / w
+        const env = Math.sin(Math.PI * u) ** 1.5           // 양 끝은 잦아드는 발화 포락선
+        const y = Math.sin(u * 9 * freq + t * (1.4 + k * 0.3) + k * 1.7) * 0.6
+                + Math.sin(u * 23 * freq - t * 2.1 + k) * 0.25
+                + Math.sin(u * 3 + t * 0.7) * 0.15
+        ctx.lineTo(x, mid + y * env * amp * 60 * (1 - k * 0.18))
+      }
+      ctx.strokeStyle = c; ctx.globalAlpha = k === 0 ? 0.55 : 0.18; ctx.lineWidth = k === 0 ? 2 : 1.2
+      ctx.stroke()
+    }
+    ctx.globalAlpha = 1
+    if (!still) requestAnimationFrame(frame)
+  }
+  frame()
+})()
 </script>
 </body>
 </html>
