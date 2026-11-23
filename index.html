@@ -207,7 +207,26 @@ btn.addEventListener('click', async () => {
   live.replaceChildren(); msg.textContent = ''
   let tracker = null
   try {
-    capture = await webAudioCapture((chunk) => tracker?.push(chunk))
+    // 앱의 RMS 게이트(-50dBFS)는 조용한 녹음 환경을 전제한다. 페이지에서는 처음 0.5초로
+    // 주변 소음 크기를 재고, 그 3배(최소 -42dBFS)를 넘는 조각만 유성 판정을 살린다.
+    // ponytail: 조각 단위 게이트라 경계 프레임 1~2개는 어긋날 수 있다
+    let floorSamples = [], threshold = Infinity
+    capture = await webAudioCapture((chunk) => {
+      if (!tracker) return
+      let sum = 0
+      for (const v of chunk) sum += v * v
+      const rms = Math.sqrt(sum / chunk.length)
+      const fresh = tracker.push(chunk)
+      if (threshold === Infinity) {
+        floorSamples.push(rms)
+        if (floorSamples.length * chunk.length >= capture.sampleRate * 0.5) {
+          floorSamples.sort((a, b) => a - b)
+          threshold = Math.max(floorSamples[floorSamples.length >> 1] * 3, 0.008)
+          msg.textContent = '듣는 중… 아무 문장이나 말해 보세요'
+        }
+      }
+      if (rms < threshold) for (const f of fresh) f.pitchHz = null
+    })
   } catch (e) {
     capture = null
     msg.textContent = e?.reason === 'permission' || e?.name === 'NotAllowedError' ? '마이크 권한이 필요합니다.' : '이 브라우저에서는 마이크를 열 수 없습니다.'
@@ -215,7 +234,7 @@ btn.addEventListener('click', async () => {
   }
   tracker = new PitchTracker(capture.sampleRate)
   card.classList.add('live'); btn.classList.add('on'); btn.textContent = '■ 멈추기'
-  msg.textContent = '듣는 중… 아무 문장이나 말해 보세요'
+  msg.textContent = '주변 소음 재는 중… 잠깐만 조용히'
   timer = setTimeout(stop, MAX_MS)
   const draw = () => {
     const segs = userCurveDisplayPoints(tracker.frames, WINDOW_MS)
