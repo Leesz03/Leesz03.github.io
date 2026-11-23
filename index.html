@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leesz03 · Portfolio</title>
+<meta name="description" content="Leesz03 포트폴리오 — 경상도 사투리 억양 레벨 테스트 Accentury">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#fbfaf7; --fg:#1c1b19; --muted:#6b6860; --line:#e6e2d9; --card:#fff;
+  --accent:#d9480f; --accent-soft:#fff1e8; --curve2:#868e96;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#141413; --fg:#ece9e2; --muted:#9a968c; --line:#2c2b28; --card:#1c1b19;
+         --accent:#ff7a3d; --accent-soft:#2a1a10; --curve2:#5c5f63; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:56px}
+nav b{font-weight:700;letter-spacing:-.01em}
+nav ul{display:flex;gap:20px;list-style:none;margin:0;padding:0;font-size:14px}
+nav a{text-decoration:none;color:var(--muted)} nav a:hover{color:var(--fg)}
+header{padding:88px 0 56px}
+.eyebrow{font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,52px);line-height:1.2;margin:12px 0 20px;letter-spacing:-.03em}
+.lead{font-size:18px;color:var(--muted);max-width:620px;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 32px}
+.chip{font-size:13px;padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:10px;
+  font-size:15px;font-weight:600;text-decoration:none;border:1px solid var(--line);background:var(--card)}
+.btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn:hover{transform:translateY(-1px)} .btn{transition:transform .15s}
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-size:26px;letter-spacing:-.02em;margin:0 0 8px}
+h3{font-size:17px;margin:32px 0 8px}
+.sub{color:var(--muted);margin:0 0 28px}
+.pitch{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 20px 12px;margin:8px 0 8px}
+.pitch svg{width:100%;height:auto;display:block}
+.pitch .legend{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-top:6px}
+.pitch .legend i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.caption{font-size:13px;color:var(--muted);margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card h4{margin:0 0 6px;font-size:15px}
+.card p,.card ul{margin:0;font-size:14.5px;color:var(--muted)}
+.card ul{padding-left:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:8px}
+.stat{background:var(--accent-soft);border-radius:14px;padding:16px 18px}
+.stat b{display:block;font-size:26px;letter-spacing:-.02em;color:var(--accent)}
+.stat span{font-size:13.5px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+td{padding:10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{width:120px;color:var(--muted);font-weight:600}
+ol.flow{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:8px}
+ol.flow li{counter-increment:s;padding-left:36px;position:relative;font-size:15px}
+ol.flow li::before{content:counter(s);position:absolute;left:0;top:2px;width:24px;height:24px;border-radius:50%;
+  background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700;display:grid;place-items:center}
+footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+@media (max-width:560px){ nav ul{gap:12px;font-size:13px} header{padding:56px 0 40px} }
+@media (prefers-reduced-motion:no-preference){
+  #me{stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 2.4s .3s ease-out forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><b>Leesz03</b>
+  <ul><li><a href="#project">Project</a></li><li><a href="#stack">Stack</a></li><li><a href="#contact">Contact</a></li></ul>
+</div></nav>
+
+<header class="wrap">
+  <div class="eyebrow">Portfolio · 부산대학교</div>
+  <h1>목소리를 그래프로 바꾸는<br>앱을 만듭니다.</h1>
+  <p class="lead">닉네임 <b>Leesz03</b>. 음성 신호 처리와 AI 모델을 사용자가 손에 쥐는 앱으로 옮기는 일에 관심이 있습니다. Android·iOS·Web 세 플랫폼에서 같은 경험을 내는 클라이언트 개발을 주로 합니다.</p>
+  <div class="chips">
+    <span class="chip">관심 분야: 음성 AI 서비스</span>
+    <span class="chip">온디바이스 오디오 처리</span>
+    <span class="chip">크로스 플랫폼 클라이언트</span>
+  </div>
+  <div class="btns">
+    <a class="btn primary" href="https://github.com/Leesz03" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn" href="resume.pdf" download>이력서 PDF ↓</a>
+    <a class="btn" href="#project">대표 프로젝트 보기</a>
+  </div>
+</header>
+
+<section id="project"><div class="wrap">
+  <div class="eyebrow">Featured Project</div>
+  <h2>Accentury — 경상도 사투리 억양 레벨 테스트</h2>
+  <p class="sub">AI·SW 마에스트로 제17기 · 3인 팀 · 2026.07 ~ 진행 중</p>
+
+  <div class="pitch" aria-label="억양 곡선 예시 그래프">
+    <svg viewBox="0 0 800 220" role="img">
+      <title>기준 억양 곡선과 사용자 억양 곡선 비교 예시</title>
+      <g stroke="var(--line)" stroke-width="1">
+        <line x1="0" y1="55" x2="800" y2="55"/><line x1="0" y1="110" x2="800" y2="110"/><line x1="0" y1="165" x2="800" y2="165"/>
+      </g>
+      <path d="M20 150 C 90 150, 110 60, 180 62 S 260 140, 320 128 S 400 40, 470 48 S 560 160, 620 150 S 720 90, 780 100"
+            fill="none" stroke="var(--curve2)" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+      <path id="me" d="M20 158 C 85 156, 120 72, 185 74 S 255 132, 322 122 S 395 58, 468 60 S 552 150, 625 146 S 712 98, 780 106"
+            fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+      <g font-size="15" fill="var(--muted)" font-family="Pretendard,sans-serif" text-anchor="middle">
+        <text x="110" y="210">니</text><text x="250" y="210">어</text><text x="390" y="210">데</text><text x="530" y="210">가</text><text x="680" y="210">노</text>
+      </g>
+    </svg>
+    <div class="legend"><span><i style="background:var(--curve2)"></i>기준 억양</span><span><i style="background:var(--accent)"></i>사용자 발화</span></div>
+  </div>
+  <p class="caption">앱이 보여주는 핵심 화면을 단순화한 그림. 말하는 동안 억양(F0) 곡선이 실시간으로 그려진다.</p>
+
+  <h3>문제 정의</h3>
+  <p>사투리는 단어보다 <b>억양</b>에서 티가 난다. 그런데 억양은 글로 설명하기 어렵고, 내가 제대로 따라 했는지 스스로 확인할 방법도 없다. 기존 발음 교정 앱은 표준어 분절음(자음·모음) 위주라 경상도 말투의 높낮이를 평가하지 못한다. 게다가 사투리에는 "정답 억양"이 하나로 정해져 있지 않다. Accentury는 사용자가 제시된 문장을 말하면 억양 곡선을 바로 보여주고, 서버가 경남 화자들의 억양 분포와 비교해 1~5단계 레벨(외지인 → 경상도 토박이)을 판정한다.</p>
+
+  <h3>역할 — 팀장 · 클라이언트 전담</h3>
+  <div class="grid">
+    <div class="card"><h4>클라이언트 3종 개발</h4><p>Android(Kotlin), iOS(Swift), Web(React)을 전담해 녹음 → 업로드 → 결과 카드 → 공유 흐름을 세 플랫폼에 같은 동작으로 구현.</p></div>
+    <div class="card"><h4>온디바이스 피치 시각화</h4><p>16kHz 모노 PCM을 실시간으로 받아 YIN/MPM으로 피치를 뽑고, EMA 스무딩과 무성 구간 처리로 100ms 이하 곡선 갱신 목표를 맞춤.</p></div>
+    <div class="card"><h4>릴리스·운영</h4><p>GitHub Actions로 Dev → staging, Release → prod 배포 파이프라인 구성. Android 서명·R8, 개인정보처리방침·계정 삭제 페이지 등 스토어 심사 대응.</p></div>
+    <div class="card"><h4>팀 리딩</h4><p>Jira 티켓 단위 일정 관리, 브랜치 규칙(Rebase 전용·Squash 금지) 설계, 모노레포를 App/Server로 분리하는 작업 주도.</p></div>
+  </div>
+
+  <h3>동작 흐름</h3>
+  <ol class="flow">
+    <li>방언 지도 온보딩 후 고정 문장을 화면에 제시</li>
+    <li>녹음하는 동안 기기에서 억양 곡선을 실시간으로 그림</li>
+    <li>Spring Boot 백엔드가 음성을 받아 사설망의 FastAPI 채점 서버로 전달</li>
+    <li>STT로 대사 확인 → RMVPE로 F0 추출 → 화자 정규화 → DTW로 기준 억양과 정렬·채점</li>
+    <li>레벨 1~5와 점수, 억양 곡선이 담긴 결과 카드를 받아 공유</li>
+  </ol>
+
+  <h3>기술</h3>
+  <table>
+    <tr><td>Client</td><td>Kotlin · Coroutines Flow · AudioRecord · YIN 피치 추정 / Swift · SwiftUI / React 19 · TypeScript · Vite</td></tr>
+    <tr><td>Backend</td><td>Spring Boot · PostgreSQL · Redis</td></tr>
+    <tr><td>AI</td><td>FastAPI · faster-whisper · RMVPE(F0 추출) · DTW 억양 유사도</td></tr>
+    <tr><td>Infra</td><td>AWS(EC2·RDS·S3·CloudFront·ALB) · Terraform · GitHub Actions</td></tr>
+    <tr><td>Data</td><td>AI Hub 경상권 방언 데이터 중 경남권 67,916개 파일(약 238시간) 분석</td></tr>
+  </table>
+
+  <h3>결과</h3>
+  <div class="stats">
+    <div class="stat"><b>3개</b><span>Android · iOS · Web 클라이언트</span></div>
+    <div class="stat"><b>990+</b><span>App 레포 본인 커밋 수</span></div>
+    <div class="stat"><b>3,000</b><span>억양 벤치마크 발화 수 (3개 화자 집단)</span></div>
+    <div class="stat"><b>운영 중</b><span>accentury.app 웹 서비스 공개</span></div>
+  </div>
+
+  <h3>링크</h3>
+  <div class="btns">
+    <a class="btn primary" href="https://accentury.app" target="_blank" rel="noopener">데모: accentury.app ↗</a>
+    <a class="btn" href="https://github.com/AISWM-2PL1/Accentury_App" target="_blank" rel="noopener">소스 코드 (App) ↗</a>
+    <a class="btn" href="https://github.com/AISWM-2PL1/Accentury_Server" target="_blank" rel="noopener">소스 코드 (Server) ↗</a>
+  </div>
+</div></section>
+
+<section id="stack"><div class="wrap">
+  <h2>다룰 수 있는 것</h2>
+  <p class="sub">프로젝트에서 직접 써 본 것만 적었습니다.</p>
+  <div class="grid">
+    <div class="card"><h4>Mobile</h4><p>Kotlin, Android SDK, Swift, Xcode</p></div>
+    <div class="card"><h4>Web</h4><p>React, TypeScript, Vite, Web Audio API</p></div>
+    <div class="card"><h4>Audio</h4><p>PCM 캡처, 피치 추적(YIN/MPM), F0 곡선 시각화</p></div>
+    <div class="card"><h4>DevOps</h4><p>GitHub Actions, Terraform, AWS, Docker Compose</p></div>
+  </div>
+</div></section>
+
+<footer id="contact"><div class="wrap">
+  <p>GitHub — <a href="https://github.com/Leesz03" target="_blank" rel="noopener">github.com/Leesz03</a></p>
+  <p>© 2026 Leesz03 · 2026 공학작문과 발표 과제 #6</p>
+</div></footer>
+</body>
+</html>
