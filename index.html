@@ -65,6 +65,11 @@ ol.flow{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:8px}
 ol.flow li{counter-increment:s;padding-left:36px;position:relative;font-size:15px}
 ol.flow li::before{content:counter(s);position:absolute;left:0;top:2px;width:24px;height:24px;border-radius:50%;
   background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700;display:grid;place-items:center}
+.try{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.try button{cursor:pointer;font-family:inherit;color:var(--fg)}
+.try button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+#micMsg{font-size:13px;color:var(--muted)}
+.pitch.live #ref,.pitch.live #me,.pitch.live #syllables,.pitch.live #legend{display:none}
 footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
 @media (max-width:560px){ nav ul{gap:12px;font-size:13px} header{padding:56px 0 40px} }
 @media (prefers-reduced-motion:no-preference){
@@ -106,17 +111,22 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
       <g stroke="var(--line)" stroke-width="1">
         <line x1="0" y1="55" x2="800" y2="55"/><line x1="0" y1="110" x2="800" y2="110"/><line x1="0" y1="165" x2="800" y2="165"/>
       </g>
-      <path d="M20 150 C 90 150, 110 60, 180 62 S 260 140, 320 128 S 400 40, 470 48 S 560 160, 620 150 S 720 90, 780 100"
+      <path id="ref" d="M20 150 C 90 150, 110 60, 180 62 S 260 140, 320 128 S 400 40, 470 48 S 560 160, 620 150 S 720 90, 780 100"
             fill="none" stroke="var(--curve2)" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
       <path id="me" d="M20 158 C 85 156, 120 72, 185 74 S 255 132, 322 122 S 395 58, 468 60 S 552 150, 625 146 S 712 98, 780 106"
             fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
-      <g font-size="15" fill="var(--muted)" font-family="Pretendard,sans-serif" text-anchor="middle">
+      <g id="live" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></g>
+      <g id="syllables" font-size="15" fill="var(--muted)" font-family="Pretendard,sans-serif" text-anchor="middle">
         <text x="110" y="210">니</text><text x="250" y="210">어</text><text x="390" y="210">데</text><text x="530" y="210">가</text><text x="680" y="210">노</text>
       </g>
     </svg>
-    <div class="legend"><span><i style="background:var(--curve2)"></i>기준 억양</span><span><i style="background:var(--accent)"></i>사용자 발화</span></div>
+    <div class="legend" id="legend"><span><i style="background:var(--curve2)"></i>기준 억양</span><span><i style="background:var(--accent)"></i>사용자 발화</span></div>
+    <div class="try">
+      <button class="btn" id="mic" type="button" hidden>🎤 직접 말해보기</button>
+      <span id="micMsg" aria-live="polite"></span>
+    </div>
   </div>
-  <p class="caption">앱이 보여주는 핵심 화면을 단순화한 그림. 말하는 동안 억양(F0) 곡선이 실시간으로 그려진다.</p>
+  <p class="caption">버튼을 누르고 아무 말이나 해 보세요. 곡선은 Accentury 웹앱의 실제 코드(<a href="https://github.com/AISWM-2PL1/Accentury_App/tree/Dev/web/src/audio" target="_blank" rel="noopener">마이크 캡처 · YIN 피치 추정 · 곡선 스무딩</a>)를 그대로 묶어 브라우저에서 계산합니다. 음성은 어디에도 전송되지 않습니다.</p>
 
   <h3>문제 정의</h3>
   <p>사투리는 단어보다 <b>억양</b>에서 티가 난다. 그런데 억양은 글로 설명하기 어렵고, 내가 제대로 따라 했는지 스스로 확인할 방법도 없다. 기존 발음 교정 앱은 표준어 분절음(자음·모음) 위주라 경상도 말투의 높낮이를 평가하지 못한다. 게다가 사투리에는 "정답 억양"이 하나로 정해져 있지 않다. Accentury는 사용자가 제시된 문장을 말하면 억양 곡선을 바로 보여주고, 서버가 경남 화자들의 억양 분포와 비교해 1~5단계 레벨(외지인 → 경상도 토박이)을 판정한다.</p>
@@ -178,5 +188,48 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
   <p>GitHub — <a href="https://github.com/Leesz03" target="_blank" rel="noopener">github.com/Leesz03</a></p>
   <p>© 2026 Leesz03 · 2026 공학작문과 발표 과제 #6</p>
 </div></footer>
+<script type="module">
+import { webAudioCapture, microphoneSupport, PitchTracker, userCurveDisplayPoints, smoothPathCommands, toSvgPath } from './pitch.js'
+// ponytail: 8초 고정 녹음, 길이 조절이 필요해지면 상수만 바꾼다
+const WINDOW_MS = 4000, MAX_MS = 8000, W = 800, H = 180, TOP = 15
+const btn = document.getElementById('mic'), msg = document.getElementById('micMsg')
+const card = document.querySelector('.pitch'), live = document.getElementById('live')
+let capture = null, timer = 0, raf = 0
+if (microphoneSupport() === 'supported') btn.hidden = false
+async function stop() {
+  clearTimeout(timer); cancelAnimationFrame(raf)
+  const c = capture; capture = null
+  btn.classList.remove('on'); btn.textContent = '🎤 다시 말해보기'
+  await c?.stop()
+}
+btn.addEventListener('click', async () => {
+  if (capture) return stop()
+  live.replaceChildren(); msg.textContent = ''
+  let tracker = null
+  try {
+    capture = await webAudioCapture((chunk) => tracker?.push(chunk))
+  } catch (e) {
+    capture = null
+    msg.textContent = e?.reason === 'permission' || e?.name === 'NotAllowedError' ? '마이크 권한이 필요합니다.' : '이 브라우저에서는 마이크를 열 수 없습니다.'
+    return
+  }
+  tracker = new PitchTracker(capture.sampleRate)
+  card.classList.add('live'); btn.classList.add('on'); btn.textContent = '■ 멈추기'
+  msg.textContent = '듣는 중… 아무 문장이나 말해 보세요'
+  timer = setTimeout(stop, MAX_MS)
+  const draw = () => {
+    const segs = userCurveDisplayPoints(tracker.frames, WINDOW_MS)
+    live.replaceChildren(...segs.map((pts) => {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+      const d = pts.length > 1 ? toSvgPath(smoothPathCommands(pts, W, H)) : `M ${pts[0].x * W} ${pts[0].y * H} h 0.1`
+      path.setAttribute('d', d); path.setAttribute('transform', `translate(0 ${TOP})`)
+      return path
+    }))
+    if (segs.length) msg.textContent = '내 억양 곡선'
+    if (capture) raf = requestAnimationFrame(draw)
+  }
+  raf = requestAnimationFrame(draw)
+})
+</script>
 </body>
 </html>
