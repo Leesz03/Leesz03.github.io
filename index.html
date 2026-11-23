@@ -81,11 +81,12 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
 <header class="wrap">
   <div class="eyebrow">Portfolio · 부산대학교</div>
   <h1>목소리를 그래프로 바꾸는<br>앱을 만듭니다.</h1>
-  <p class="lead">닉네임 <b>Leesz03</b>. 음성 신호 처리와 AI 모델을 사용자가 손에 쥐는 앱으로 옮기는 일에 관심이 있습니다. Android·iOS·Web 세 플랫폼에서 같은 경험을 내는 클라이언트 개발을 주로 합니다.</p>
+  <p class="lead">닉네임 <b>Leesz03</b>. 프론트엔드 개발자입니다. 하나의 웹 UI를 Android·iOS 앱과 브라우저에 똑같이 띄우는 하이브리드 구조와, 마이크 입력을 실시간 그래프로 그리는 인터랙션을 만들고 있습니다.</p>
   <div class="chips">
-    <span class="chip">관심 분야: 음성 AI 서비스</span>
-    <span class="chip">온디바이스 오디오 처리</span>
-    <span class="chip">크로스 플랫폼 클라이언트</span>
+    <span class="chip">관심 분야: 프론트엔드</span>
+    <span class="chip">React · TypeScript</span>
+    <span class="chip">WebView 하이브리드 앱</span>
+    <span class="chip">실시간 데이터 시각화</span>
   </div>
   <div class="btns">
     <a class="btn primary" href="https://github.com/Leesz03" target="_blank" rel="noopener">GitHub ↗</a>
@@ -120,45 +121,45 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
   <h3>문제 정의</h3>
   <p>사투리는 단어보다 <b>억양</b>에서 티가 난다. 그런데 억양은 글로 설명하기 어렵고, 내가 제대로 따라 했는지 스스로 확인할 방법도 없다. 기존 발음 교정 앱은 표준어 분절음(자음·모음) 위주라 경상도 말투의 높낮이를 평가하지 못한다. 게다가 사투리에는 "정답 억양"이 하나로 정해져 있지 않다. Accentury는 사용자가 제시된 문장을 말하면 억양 곡선을 바로 보여주고, 서버가 경남 화자들의 억양 분포와 비교해 1~5단계 레벨(외지인 → 경상도 토박이)을 판정한다.</p>
 
-  <h3>역할 — 팀장 · 클라이언트 전담</h3>
+  <h3>역할 — 팀장 · 프론트엔드 전담</h3>
+  <p>3인 팀(프론트엔드·백엔드·AI)에서 사용자가 보고 만지는 부분 전체를 맡았습니다. 웹 UI, Android·iOS 네이티브 셸, 둘을 잇는 브리지, 배포까지 담당했습니다.</p>
   <div class="grid">
-    <div class="card"><h4>클라이언트 3종 개발</h4><p>Android(Kotlin), iOS(Swift), Web(React)을 전담해 녹음 → 업로드 → 결과 카드 → 공유 흐름을 세 플랫폼에 같은 동작으로 구현.</p></div>
-    <div class="card"><h4>온디바이스 피치 시각화</h4><p>16kHz 모노 PCM을 실시간으로 받아 YIN/MPM으로 피치를 뽑고, EMA 스무딩과 무성 구간 처리로 100ms 이하 곡선 갱신 목표를 맞춤.</p></div>
-    <div class="card"><h4>릴리스·운영</h4><p>GitHub Actions로 Dev → staging, Release → prod 배포 파이프라인 구성. Android 서명·R8, 개인정보처리방침·계정 삭제 페이지 등 스토어 심사 대응.</p></div>
-    <div class="card"><h4>팀 리딩</h4><p>Jira 티켓 단위 일정 관리, 브랜치 규칙(Rebase 전용·Squash 금지) 설계, 모노레포를 App/Server로 분리하는 작업 주도.</p></div>
+    <div class="card"><h4>웹 UI (React)</h4><p>온보딩, 방언 지도, 녹음, 결과 카드, 공유 화면을 React 19 + TypeScript로 구현. 한 번 만든 화면을 앱과 브라우저에 그대로 사용.</p></div>
+    <div class="card"><h4>WebView 하이브리드 구조</h4><p>화면은 웹이 그리고 마이크·녹음·공유는 네이티브가 처리하도록 나눔. 버전을 매긴 브리지 계약을 설계해 Android·iOS·웹 세 곳이 같은 메시지 형식을 쓰게 함.</p></div>
+    <div class="card"><h4>실시간 억양 곡선</h4><p>마이크 입력을 프레임 단위로 잘라 YIN 알고리즘으로 음높이를 추정하고, EMA 스무딩과 베지어 보간으로 말하는 동안 곡선이 끊김 없이 그려지게 함.</p></div>
+    <div class="card"><h4>디자인 시스템·품질</h4><p>색·타이포·간격을 디자인 토큰으로 정리해 웹(CSS)과 Android(Compose)가 같은 값을 쓰게 함. Vitest 단위 테스트와 Playwright 브라우저 E2E로 회귀 확인.</p></div>
   </div>
 
-  <h3>동작 흐름</h3>
+  <h3>사용자 흐름</h3>
   <ol class="flow">
-    <li>방언 지도 온보딩 후 고정 문장을 화면에 제시</li>
-    <li>녹음하는 동안 기기에서 억양 곡선을 실시간으로 그림</li>
-    <li>Spring Boot 백엔드가 음성을 받아 사설망의 FastAPI 채점 서버로 전달</li>
-    <li>STT로 대사 확인 → RMVPE로 F0 추출 → 화자 정규화 → DTW로 기준 억양과 정렬·채점</li>
-    <li>레벨 1~5와 점수, 억양 곡선이 담긴 결과 카드를 받아 공유</li>
+    <li>방언 지도 온보딩에서 출신 지역 선택</li>
+    <li>화면에 제시된 문장을 읽으면 억양 곡선이 실시간으로 그려짐</li>
+    <li>녹음이 끝나면 서버 채점 결과를 기다리는 동안 진행 상태 표시</li>
+    <li>레벨 1~5(외지인 → 경상도 토박이)와 캐릭터가 담긴 결과 카드 확인</li>
+    <li>결과 카드를 링크·이미지로 공유</li>
   </ol>
 
   <h3>기술</h3>
   <table>
-    <tr><td>Client</td><td>Kotlin · Coroutines Flow · AudioRecord · YIN 피치 추정 / Swift · SwiftUI / React 19 · TypeScript · Vite</td></tr>
-    <tr><td>Backend</td><td>Spring Boot · PostgreSQL · Redis</td></tr>
-    <tr><td>AI</td><td>FastAPI · faster-whisper · RMVPE(F0 추출) · DTW 억양 유사도</td></tr>
-    <tr><td>Infra</td><td>AWS(EC2·RDS·S3·CloudFront·ALB) · Terraform · GitHub Actions</td></tr>
-    <tr><td>Data</td><td>AI Hub 경상권 방언 데이터 중 경남권 67,916개 파일(약 238시간) 분석</td></tr>
+    <tr><td>Web</td><td>React 19 · TypeScript · Vite · CSS 디자인 토큰 · Web Audio API</td></tr>
+    <tr><td>Android</td><td>Kotlin · Jetpack Compose · WebView · Coroutines Flow · AudioRecord</td></tr>
+    <tr><td>iOS</td><td>Swift · SwiftUI · WKWebView</td></tr>
+    <tr><td>Test</td><td>Vitest · Playwright(브라우저 E2E) · JUnit · XCTest</td></tr>
+    <tr><td>Deploy</td><td>GitHub Actions · AWS S3 + CloudFront 정적 호스팅</td></tr>
   </table>
 
   <h3>결과</h3>
   <div class="stats">
-    <div class="stat"><b>3개</b><span>Android · iOS · Web 클라이언트</span></div>
+    <div class="stat"><b>3개</b><span>하나의 웹 UI로 지원하는 플랫폼 (Android · iOS · Web)</span></div>
+    <div class="stat"><b>260+</b><span>웹·Android·iOS 테스트 파일 수</span></div>
     <div class="stat"><b>990+</b><span>App 레포 본인 커밋 수</span></div>
-    <div class="stat"><b>3,000</b><span>억양 벤치마크 발화 수 (3개 화자 집단)</span></div>
     <div class="stat"><b>운영 중</b><span>accentury.app 웹 서비스 공개</span></div>
   </div>
 
   <h3>링크</h3>
   <div class="btns">
     <a class="btn primary" href="https://accentury.app" target="_blank" rel="noopener">데모: accentury.app ↗</a>
-    <a class="btn" href="https://github.com/AISWM-2PL1/Accentury_App" target="_blank" rel="noopener">소스 코드 (App) ↗</a>
-    <a class="btn" href="https://github.com/AISWM-2PL1/Accentury_Server" target="_blank" rel="noopener">소스 코드 (Server) ↗</a>
+    <a class="btn" href="https://github.com/AISWM-2PL1/Accentury_App" target="_blank" rel="noopener">소스 코드 ↗</a>
   </div>
 </div></section>
 
@@ -166,10 +167,10 @@ footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);f
   <h2>다룰 수 있는 것</h2>
   <p class="sub">프로젝트에서 직접 써 본 것만 적었습니다.</p>
   <div class="grid">
-    <div class="card"><h4>Mobile</h4><p>Kotlin, Android SDK, Swift, Xcode</p></div>
-    <div class="card"><h4>Web</h4><p>React, TypeScript, Vite, Web Audio API</p></div>
-    <div class="card"><h4>Audio</h4><p>PCM 캡처, 피치 추적(YIN/MPM), F0 곡선 시각화</p></div>
-    <div class="card"><h4>DevOps</h4><p>GitHub Actions, Terraform, AWS, Docker Compose</p></div>
+    <div class="card"><h4>Frontend</h4><p>React, TypeScript, Vite, CSS 디자인 토큰, SVG</p></div>
+    <div class="card"><h4>Mobile</h4><p>Kotlin, Jetpack Compose, WebView 브리지, Swift, SwiftUI</p></div>
+    <div class="card"><h4>Interaction</h4><p>Web Audio API, 마이크 입력 실시간 시각화, 곡선 스무딩·보간</p></div>
+    <div class="card"><h4>Test · Deploy</h4><p>Vitest, Playwright, GitHub Actions, S3 + CloudFront</p></div>
   </div>
 </div></section>
 
