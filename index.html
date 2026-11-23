@@ -33,7 +33,9 @@ header.wrap{padding:88px 20px 150px;position:relative}
 .hero{position:relative;overflow:hidden;isolation:isolate}
 #wave{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 .hero header{z-index:0}
-.lead,.chips{position:relative}
+.profile{display:flex;flex-wrap:wrap;gap:8px 32px;margin:0 0 32px;font-size:18px}
+.profile div{display:flex;gap:12px}
+.profile dt{color:var(--muted)} .profile dd{margin:0;font-weight:600}
 .ts{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--muted);margin-right:8px;letter-spacing:0}
 .eq{display:inline-flex;gap:2px;align-items:flex-end;height:14px;margin-right:8px;vertical-align:-1px}
 .eq i{width:3px;background:var(--accent);border-radius:1px;height:40%}
@@ -47,9 +49,6 @@ header.wrap{padding:88px 20px 150px;position:relative}
           mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 24'%3E%3Cpath d='M0 12 C 10 12 15 4 25 4 S 40 20 50 20 S 65 8 75 8 S 90 16 100 16 S 115 12 120 12' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x center/120px 24px}
 .eyebrow{font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 h1{font-size:clamp(34px,6vw,52px);line-height:1.2;margin:12px 0 20px;letter-spacing:-.03em}
-.lead{font-size:18px;color:var(--muted);max-width:620px;margin:0}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 32px}
-.chip{font-size:13px;padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:10px;
   font-size:15px;font-weight:600;text-decoration:none;border:1px solid var(--line);background:var(--card)}
@@ -100,15 +99,12 @@ footer{padding:32px 0 64px;color:var(--muted);font-size:14px}
 
 <div class="hero"><canvas id="wave" aria-hidden="true"></canvas>
 <header class="wrap">
-  <div class="eyebrow"><span class="ts">00:00</span>Portfolio · 부산대학교</div>
-  <h1>목소리를 그래프로 바꾸는<br>앱을 만듭니다.</h1>
-  <p class="lead">닉네임 <b>Leesz03</b>. 프론트엔드 개발자입니다. 하나의 웹 UI를 Android·iOS 앱과 브라우저에 똑같이 띄우는 하이브리드 구조와, 마이크 입력을 실시간 그래프로 그리는 인터랙션을 만들고 있습니다.</p>
-  <div class="chips">
-    <span class="chip">관심 분야: 프론트엔드</span>
-    <span class="chip">React · TypeScript</span>
-    <span class="chip">WebView 하이브리드 앱</span>
-    <span class="chip">실시간 데이터 시각화</span>
-  </div>
+  <div class="eyebrow"><span class="ts">00:00</span>Portfolio</div>
+  <h1>Leesz03</h1>
+  <dl class="profile">
+    <div><dt>분야</dt><dd>프론트엔드 개발</dd></div>
+    <div><dt>학력</dt><dd>부산대학교 재학</dd></div>
+  </dl>
   <div class="btns">
     <a class="btn primary" href="https://github.com/Leesz03" target="_blank" rel="noopener">GitHub ↗</a>
     <a class="btn" href="resume.pdf" download>이력서 PDF ↓</a>
